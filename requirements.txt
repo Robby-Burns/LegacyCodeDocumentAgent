@@ -1,0 +1,20 @@
+# Legacy Code Documentation Agent
+# Python Dependencies
+
+# Core LLM Integration
+litellm>=1.0.0
+
+# Environment & Configuration
+python-dotenv>=1.0.0
+
+# PDF Generation
+fpdf2>=2.7.0
+markdown2>=2.4.0
+
+# Excel Reporting
+openpyxl>=3.1.0
+
+# Web Interface
+streamlit>=1.28.0
+
+# Note: These are minimum versions. Run `pip install -r requirements.txt` to install all dependencies.
