@@ -1,0 +1,23 @@
+Total Outstanding Loans =
+CALCULATE(
+    SUM(Loans[CurrentBalance]),
+    Loans[AccountStatus] = "Active",
+    Loans[LoanType] IN {"Auto", "Personal", "Mortgage", "HELOC"}
+)
+
+Delinquent Loan Count =
+CALCULATE(
+    COUNTROWS(Loans),
+    Loans[DaysDelinquent] > 30,
+    Loans[AccountStatus] = "Active"
+)
+
+Average Loan Amount by Type =
+AVERAGEX(
+    SUMMARIZE(
+        Loans,
+        Loans[LoanType],
+        "AvgAmount", AVERAGE(Loans[OriginalAmount])
+    ),
+    [AvgAmount]
+)

@@ -1,0 +1,51 @@
+/* Legacy DAX Measures for Sales Dashboard 
+    Created: 2021
+*/
+
+// Basic Sales Sum
+Total Sales = SUM('FactSales'[SalesAmount])
+
+// Calculate Sales for the Previous Year
+// Relies on a 'DimDate' table relationship
+Sales PY = 
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR('DimDate'[Date])
+)
+
+// Year over Year Growth %
+// Uses DIVIDE to handle divide-by-zero errors safely
+YoY Growth % = 
+VAR CurrentSales = [Total Sales]
+VAR PriorSales = [Sales PY]
+RETURN
+    DIVIDE(
+        CurrentSales - PriorSales,
+        PriorSales,
+        0
+    )
+
+// Rolling 3 Month Average
+// Complex filter context manipulation
+Rolling 3M Avg = 
+VAR LastDateSelected = MAX('DimDate'[Date])
+VAR PeriodInScope = 
+    DATESINPERIOD(
+        'DimDate'[Date],
+        LastDateSelected,
+        -3,
+        MONTH
+    )
+RETURN
+    CALCULATE(
+        AVERAGEX(
+            VALUES('DimDate'[MonthKey]),
+            [Total Sales]
+        ),
+        PeriodInScope
+    )
+
+// Dynamic Title for Charts
+Title Dynamic = 
+"Sales Performance for " & SELECTEDVALUE('DimStore'[Region], "All Regions") & 
+" (" & FORMAT([YoY Growth %], "Percent") & " YoY)"

@@ -1,0 +1,22 @@
+# Secrets - NEVER commit these
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+venv/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Local Runtime Logs (Prevents constant merge conflicts)
+run_history.xlsx
+run_history.jsonl
+*.log
+
+# Output files (currently commented out, so they WILL be uploaded)
+output/
